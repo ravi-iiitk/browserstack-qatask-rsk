@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Cucumber" time="38.616" tests="1" skipped="0" failures="0" errors="0">
+<testcase classname="Opinion &amp; Transalation for Elpais.com" name="Identify repeated words from translated titles" time="37.695">
+<system-out><![CDATA[
+Given I visit the website "https://elpais.com"..............................passed
+Then I am on the "EL PAÍS: el periódico global" homepage....................passed
+Given I navigate to the "opinion" section of the website....................passed
+When I fetch the first 5 articles titles....................................passed
+Then I translate the article titles to "English"............................passed
+And I have the translated headers...........................................passed
+When I identify words repeated more than 2 times across all headers.........passed
+Then I print each repeated word with its count of occurrences...............passed
+]]></system-out>
+</testcase>
+</testsuite>
