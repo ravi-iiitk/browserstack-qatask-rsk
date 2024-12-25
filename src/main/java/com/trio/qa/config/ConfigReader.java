@@ -78,8 +78,21 @@ public class ConfigReader {
         return environment;
     }
 
-    public static String[] getBrowserList() {
-        String browsers = getGlobal("browser");
-        return browsers != null ? browsers.split(",") : new String[]{"chrome"}; // Default to "chrome"
+    /**
+     * Gets the browser name for the current test execution.
+     * Prioritizes the browser passed as a TestNG parameter or system property.
+     *
+     * @return the browser name (default: "chrome")
+     */
+    public static String getBrowser() {
+        String browser = System.getProperty("browser");
+        if (browser == null || browser.isEmpty()) {
+            browser = getGlobal("browser"); // Fallback to config file
+        }
+        if (browser == null || browser.isEmpty()) {
+            browser = "chrome"; // Default browser
+        }
+        logger.info("Using browser: {}", browser);
+        return browser;
     }
 }

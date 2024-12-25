@@ -31,14 +31,20 @@ public class DriverManager {
             logger.info("Execution Platform: {}", executionPlatform);
 
             switch (executionPlatform) {
-                case "local":
+                case "local-driver":
                     driver = initializeLocalDriver(browser);
+                    break;
+                case "local-driver-manager":
+                    driver = initializeLocalDriverManager(browser);
+                    break;
+                case "cloud":
+                    driver = initializeCloudDriver(browser);
                     break;
                 case "docker":
                     driver = initializeDockerDriver(browser);
                     break;
-                case "cloud":
-                    driver = initializeCloudDriver(browser);
+                case "grid":
+                    driver = initializeGridDriver(browser);
                     break;
                 default:
                     throw new IllegalArgumentException("Unsupported execution platform: " + executionPlatform);
@@ -59,18 +65,55 @@ public class DriverManager {
     }
 
     private static WebDriver initializeLocalDriver(String browser) {
+        String driverPath;
         switch (browser.toLowerCase()) {
             case "chrome":
-                WebDriverManager.chromedriver().setup();
+                driverPath = ConfigReader.getGlobal("chrome-driver-path");
+                System.setProperty("webdriver.chrome.driver", driverPath);
+                logger.info("Initializing Chrome browser using local driver at path: {}", driverPath);
                 return new ChromeDriver();
             case "firefox":
-                WebDriverManager.firefoxdriver().setup();
+                driverPath = ConfigReader.getGlobal("firefox-driver-path");
+                System.setProperty("webdriver.gecko.driver", driverPath);
+                logger.info("Initializing Firefox browser using local driver at path: {}", driverPath);
                 return new FirefoxDriver();
             case "edge":
-                WebDriverManager.edgedriver().setup();
+                driverPath = ConfigReader.getGlobal("edge-driver-path");
+                System.setProperty("webdriver.edge.driver", driverPath);
+                logger.info("Initializing Edge browser using local driver at path: {}", driverPath);
                 return new EdgeDriver();
             default:
                 throw new IllegalArgumentException("Unsupported browser: " + browser);
+        }
+    }
+
+    private static WebDriver initializeLocalDriverManager(String browser) {
+        switch (browser.toLowerCase()) {
+            case "chrome":
+                WebDriverManager.chromedriver().setup();
+                logger.info("Initializing Chrome browser using WebDriverManager.");
+                return new ChromeDriver();
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
+                logger.info("Initializing Firefox browser using WebDriverManager.");
+                return new FirefoxDriver();
+            case "edge":
+                WebDriverManager.edgedriver().setup();
+                logger.info("Initializing Edge browser using WebDriverManager.");
+                return new EdgeDriver();
+            default:
+                throw new IllegalArgumentException("Unsupported browser: " + browser);
+        }
+    }
+
+    private static WebDriver initializeCloudDriver(String browser) {
+        String cloudProvider = ConfigReader.getGlobal("cloud-provider").toLowerCase();
+
+        switch (cloudProvider) {
+            case "browserstack":
+                return initializeBrowserStackDriver(browser);
+            default:
+                throw new IllegalArgumentException("Unsupported cloud provider: " + cloudProvider);
         }
     }
 
@@ -101,16 +144,31 @@ public class DriverManager {
         return new RemoteWebDriver(new URL(dockerHubURL), capabilities);
     }
 
-    private static WebDriver initializeCloudDriver(String browser) {
-        String cloudProvider = ConfigReader.getGlobal("cloud-provider").toLowerCase();
+    private static WebDriver initializeGridDriver(String browser) throws MalformedURLException {
+        String seleniumGridUrl = ConfigReader.getGlobal("grid-url");
 
-        switch (cloudProvider) {
-            case "browserstack":
-                return initializeBrowserStackDriver(browser);
+        // Define browser options
+        switch (browser.toLowerCase()) {
+            case "chrome": {
+                ChromeOptions chromeOptions = new ChromeOptions();
+                logger.info("Initializing Chrome browser on Selenium Grid at {}", seleniumGridUrl);
+                return new RemoteWebDriver(new URL(seleniumGridUrl), chromeOptions);
+            }
+            case "firefox": {
+                FirefoxOptions firefoxOptions = new FirefoxOptions();
+                logger.info("Initializing Firefox browser on Selenium Grid at {}", seleniumGridUrl);
+                return new RemoteWebDriver(new URL(seleniumGridUrl), firefoxOptions);
+            }
+            case "edge": {
+                EdgeOptions edgeOptions = new EdgeOptions();
+                logger.info("Initializing Edge browser on Selenium Grid at {}", seleniumGridUrl);
+                return new RemoteWebDriver(new URL(seleniumGridUrl), edgeOptions);
+            }
             default:
-                throw new IllegalArgumentException("Unsupported cloud provider: " + cloudProvider);
+                throw new IllegalArgumentException("Unsupported browser: " + browser);
         }
     }
+
 
     private static WebDriver initializeBrowserStackDriver(String browser) {
         DesiredCapabilities capabilities = new DesiredCapabilities();

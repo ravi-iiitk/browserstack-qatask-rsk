@@ -1,26 +1,34 @@
 package com.trio.qa.runner;
 
-import com.trio.qa.config.ConfigReader;
-import io.cucumber.junit.platform.engine.Cucumber;
+import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
-import org.junit.runner.RunWith;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Optional;
+import org.testng.annotations.Parameters;
 
-import io.cucumber.junit.platform.engine.Cucumber;
-
-@Cucumber
-
-@io.cucumber.junit.CucumberOptions(
-        features = "src/test/resources/feature-files/", // Path to your feature files
-        glue = {"stepdefinitions.web.browserstack.qa.task.elpais", "hooks"}, // Include only package paths
+@CucumberOptions(
+        features = "src/test/resources/feature-files",
+        glue = {"stepdefinitions.web.browserstack.qa.task.elpais", "hooks"},
         plugin = {
-                "pretty",                              // Prints Gherkin steps in console
-                "html:target/cucumber-reports/cucumber-html-report.html",  // HTML report
-                "json:target/cucumber-reports/cucumber.json",              // JSON report
-                "junit:target/cucumber-reports/cucumber.xml"               // JUnit XML report
+                "pretty",
+                "html:target/cucumber-reports/cucumber-html-report.html",
+                "json:target/cucumber-reports/cucumber.json",
+                "junit:target/cucumber-reports/cucumber.xml"
         },
-        tags = "@smoke",                           // Tags to filter tests
-        monochrome = true                          // For better console output
+        tags = "@smoke",
+        monochrome = true
 )
-public class TestRunner {
-    // No need for a main method when using JUnit 5
+public abstract class TestRunner extends AbstractTestNGCucumberTests {
+
+        private static final ThreadLocal<String> threadLocalBrowser = new ThreadLocal<>();
+
+        @Parameters("browser")
+        @BeforeClass(alwaysRun = true)
+        public void setUp(@Optional("chrome") String browser) {
+                threadLocalBrowser.set(browser); // Store browser parameter for the current thread
+        }
+
+        public static String getBrowser() {
+                return threadLocalBrowser.get(); // Retrieve browser parameter for the current thread
+        }
 }

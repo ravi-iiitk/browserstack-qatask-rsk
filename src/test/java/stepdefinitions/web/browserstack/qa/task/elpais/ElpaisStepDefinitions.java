@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import static com.trio.qa.utils.selenium.ElementUtils.getText;
-import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class ElpaisStepDefinitions {
 
@@ -33,12 +33,12 @@ public class ElpaisStepDefinitions {
     @Given("I visit the website {string}")
     public void iVisitTheWebsite(String url) {
         try {
-            WebDriver driver = DriverManager.getDriver(); // Get the WebDriver instance from DriverManager
+            driver = DriverManager.getDriver(); // Get the WebDriver instance from DriverManager
             logger.info("Navigating to URL: {}", url);
             driver.get(url);
 
             // Initialize the HomePage object
-            HomePage homePage = new HomePage(driver);
+            homePage = new HomePage(driver);
             homePage.acceptThePopUp(); // Handle any pop-ups
 
             logger.info("Successfully navigated to URL: {}", url);

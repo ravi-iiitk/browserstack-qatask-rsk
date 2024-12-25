@@ -23,7 +23,7 @@ Feature: Opinion & Transalation for Elpais.com
     When I fetch the first 5 articles titles
     Then I translate the article titles to "English"
     And I print the translated titles
-1
+
   @smoke
   Scenario: Identify repeated words from translated titles
     Given I navigate to the "opinion" section of the website
