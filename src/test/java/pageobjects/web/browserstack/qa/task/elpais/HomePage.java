@@ -2,8 +2,10 @@ package pageobjects.web.browserstack.qa.task.elpais;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
@@ -94,5 +96,26 @@ public class HomePage {
             }
         }
         return false;
+    }
+
+    public void maximizePage() {
+        if (!isMobileDriver(driver)) {
+            // Maximize the window only if it's not a mobile device
+            driver.manage().window().maximize();
+        } else {
+            System.out.println("Skipping window maximize for mobile driver.");
+        }
+    }
+
+    private boolean isMobileDriver(WebDriver driver) {
+        Capabilities capabilities = ((RemoteWebDriver) driver).getCapabilities();
+
+        // Check for "deviceName" in capabilities
+        String deviceName = (String) capabilities.getCapability("deviceName");
+        if (deviceName != null && !deviceName.isEmpty()) {
+            return true; // It's a mobile driver
+        }
+
+        return false; // Default to desktop if no mobile characteristics are detected
     }
 }

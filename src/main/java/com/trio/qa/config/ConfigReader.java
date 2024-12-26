@@ -12,6 +12,7 @@ public class ConfigReader {
     private static final Logger logger = LogManager.getLogger(ConfigReader.class);
     private static final Properties globalProperties = new Properties();
     private static final Properties environmentProperties = new Properties();
+    private static final Properties browserStackProperties = new Properties();
     private static String environment;
 
     static {
@@ -28,6 +29,11 @@ public class ConfigReader {
             FileInputStream envConfig = new FileInputStream("src/main/resources/config/" + environment + ".properties");
             environmentProperties.load(envConfig);
             logger.info("Loaded {} environment configuration.", environment);
+
+            // Load BrowserStack-specific configuration (if present)
+            FileInputStream bsConfig = new FileInputStream("src/main/resources/config/config-browserstack.properties");
+            browserStackProperties.load(bsConfig);
+            logger.info("Loaded BrowserStack-specific configuration from config-browserstack.properties.");
 
         } catch (IOException e) {
             logger.error("Failed to load configuration files.", e);
@@ -70,6 +76,16 @@ public class ConfigReader {
     }
 
     /**
+     * Retrieves a property value from BrowserStack-specific configuration.
+     *
+     * @param key the property key
+     * @return the property value or null if not found
+     */
+    public static String getBrowserStack(String key) {
+        return browserStackProperties.getProperty(key);
+    }
+
+    /**
      * Gets the current environment.
      *
      * @return the environment name
@@ -94,5 +110,19 @@ public class ConfigReader {
         }
         logger.info("Using browser: {}", browser);
         return browser;
+    }
+
+    /**
+     * Constructs the BrowserStack Hub URL dynamically.
+     *
+     * @return the BrowserStack Hub URL
+     */
+    public static String getBrowserStackHubUrl() {
+        String username = getBrowserStack("browserstack-username");
+        String accessKey = getBrowserStack("browserstack-access-key");
+        if (username == null || accessKey == null) {
+            throw new IllegalStateException("BrowserStack credentials are not properly configured.");
+        }
+        return String.format("http://%s:%s@hub-cloud.browserstack.com/wd/hub", username, accessKey);
     }
 }

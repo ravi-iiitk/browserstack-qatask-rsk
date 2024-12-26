@@ -1,7 +1,8 @@
 package hooks;
 
-import com.trio.qa.runner.TestRunner;
-import com.trio.qa.core.DriverManager;
+import com.trio.qa.config.ConfigReader;
+import com.trio.qa.tests.core.DriverManager;
+import com.trio.qa.tests.runner.TestRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
@@ -18,17 +19,18 @@ public class CucumberHooks {
     public void setUp(Scenario scenario) {
         try {
             logger.info("Starting setup for scenario: {}", scenario.getName());
-
-            // Fetch the browser for the current thread from TestRunner
-            String browser = TestRunner.getBrowser();
-            if (browser == null || browser.isEmpty()) {
-                throw new IllegalArgumentException("Browser not specified for the current thread.");
+            String browser = ConfigReader.getBrowser();
+            if (!ConfigReader.getGlobal("execution-platform").equalsIgnoreCase("cloud"))
+            {
+                browser = TestRunner.getBrowser();
+                if (browser == null || browser.isEmpty()) {
+                    throw new IllegalArgumentException("Browser not specified for the current thread.");
+                }
             }
 
             // Initialize WebDriver
             DriverManager.initializeDriver(browser);
             logger.info("Initialized WebDriver for browser: {}", browser);
-
         } catch (Exception e) {
             logger.error("Setup failed for scenario: {}. Error: {}", scenario.getName(), e.getMessage(), e);
             throw new RuntimeException("Setup failed for scenario: " + scenario.getName(), e);

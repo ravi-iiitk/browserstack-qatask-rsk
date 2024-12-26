@@ -1,6 +1,6 @@
 package stepdefinitions.web.browserstack.qa.task.elpais;
 
-import com.trio.qa.core.DriverManager;
+import com.trio.qa.tests.core.DriverManager;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static com.trio.qa.utils.selenium.ElementUtils.getText;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ElpaisStepDefinitions {
@@ -39,6 +38,7 @@ public class ElpaisStepDefinitions {
 
             // Initialize the HomePage object
             homePage = new HomePage(driver);
+            homePage.maximizePage();
             homePage.acceptThePopUp(); // Handle any pop-ups
 
             logger.info("Successfully navigated to URL: {}", url);

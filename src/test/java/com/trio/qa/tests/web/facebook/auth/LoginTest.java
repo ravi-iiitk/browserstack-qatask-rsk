@@ -1,7 +1,6 @@
 package com.trio.qa.tests.web.facebook.auth;
 
-import com.trio.qa.base.WebBaseTest;
-import com.trio.qa.config.ConfigReader;
+import com.trio.qa.tests.base.WebBaseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pageobjects.web.facebook.auth.LoginPage;
