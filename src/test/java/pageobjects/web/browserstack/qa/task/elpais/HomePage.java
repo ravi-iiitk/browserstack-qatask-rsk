@@ -11,8 +11,8 @@ import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
-import static com.trio.qa.utils.selenium.ElementUtils.clickElement;
-import static com.trio.qa.utils.selenium.ElementUtils.getText;
+import static com.browserstack.qa.task.utils.selenium.ElementUtils.clickElement;
+import static com.browserstack.qa.task.utils.selenium.ElementUtils.getText;
 
 public class HomePage {
 

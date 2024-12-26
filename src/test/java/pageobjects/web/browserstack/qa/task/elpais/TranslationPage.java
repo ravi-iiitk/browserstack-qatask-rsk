@@ -1,6 +1,6 @@
 package pageobjects.web.browserstack.qa.task.elpais;
 
-import com.trio.qa.config.ConfigReader;
+import com.browserstack.qa.task.config.ConfigReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;

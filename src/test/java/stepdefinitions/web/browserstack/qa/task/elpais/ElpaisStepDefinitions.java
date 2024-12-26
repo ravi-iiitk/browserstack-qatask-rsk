@@ -1,6 +1,6 @@
 package stepdefinitions.web.browserstack.qa.task.elpais;
 
-import com.trio.qa.tests.core.DriverManager;
+import com.browserstack.qa.task.core.DriverManager;
 import io.cucumber.java.en.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

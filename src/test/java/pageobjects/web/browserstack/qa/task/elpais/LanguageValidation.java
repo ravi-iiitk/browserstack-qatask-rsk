@@ -1,6 +1,6 @@
 package pageobjects.web.browserstack.qa.task.elpais;
 
-import com.trio.qa.utils.misc.TranslationUtils;
+import com.browserstack.qa.task.utils.misc.TranslationUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

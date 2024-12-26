@@ -1,10 +1,41 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.testautomation.framework</groupId>
     <artifactId>test-automation-framework</artifactId>
     <version>1.0-SNAPSHOT</version>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Align versions for Cucumber components -->
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>messages</artifactId>
+                <version>24.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>gherkin</artifactId>
+                <version>24.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>gherkin-messages</artifactId>
+                <version>24.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>query</artifactId>
+                <version>12.2.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>html-formatter</artifactId>
+                <version>21.7.0</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <!-- Selenium WebDriver -->
@@ -14,25 +45,11 @@
             <version>4.27.0</version>
         </dependency>
 
-        <!-- Appium -->
+        <!-- Allure Cucumber for Cucumber 7.x -->
         <dependency>
-            <groupId>io.appium</groupId>
-            <artifactId>java-client</artifactId>
-            <version>8.5.1</version>
-        </dependency>
-
-        <!-- RestAssured for API Testing -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <version>5.3.0</version>
-        </dependency>
-
-        <!-- TestNG for Testing Framework -->
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.7.1</version>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>2.21.0</version>
         </dependency>
 
         <!-- Cucumber Core Dependencies -->
@@ -47,7 +64,14 @@
             <version>7.20.1</version>
         </dependency>
 
-        <!-- Allure TestNG -->
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>7.7.1</version>
+        </dependency>
+
+        <!-- Allure TestNG Integration -->
         <dependency>
             <groupId>io.qameta.allure</groupId>
             <artifactId>allure-testng</artifactId>
@@ -68,7 +92,7 @@
             <version>5.5.1</version>
         </dependency>
 
-        <!-- Log4j for Logging -->
+        <!-- Log4j -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>
@@ -78,6 +102,13 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-core</artifactId>
             <version>2.20.0</version>
+        </dependency>
+
+        <!-- RestAssured for API Testing -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>5.3.0</version>
         </dependency>
 
         <!-- Jackson for JSON Processing -->
@@ -123,14 +154,14 @@
             <version>1.95.4</version>
         </dependency>
 
-        <!-- Gson for JSON Serialization/Deserialization -->
+        <!-- Gson -->
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.11.0</version>
         </dependency>
 
-        <!-- SLF4J Bridge for Log4j -->
+        <!-- SLF4J Binding for Log4j -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-log4j12</artifactId>
@@ -151,7 +182,7 @@
                 </configuration>
             </plugin>
 
-            <!-- Maven Surefire Plugin for Running Tests -->
+            <!-- Maven Surefire Plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -163,6 +194,29 @@
                         <include>**/*Test*.java</include>
                     </includes>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>allure</executable>
+                            <arguments>
+                                <argument>generate</argument>
+                                <argument>allure-results</argument>
+                                <argument>-o</argument>
+                                <argument>allure-reports</argument>
+                                <argument>--clean</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

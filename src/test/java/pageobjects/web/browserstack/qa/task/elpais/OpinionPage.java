@@ -1,6 +1,6 @@
 package pageobjects.web.browserstack.qa.task.elpais;
 
-import com.trio.qa.utils.misc.TranslationUtils;
+import com.browserstack.qa.task.utils.misc.TranslationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.trio.qa.utils.selenium.ElementUtils.getText;
+import static com.browserstack.qa.task.utils.selenium.ElementUtils.getText;
 
 public class OpinionPage {
     private final WebDriver driver;

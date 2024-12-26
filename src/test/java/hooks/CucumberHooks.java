@@ -1,20 +1,35 @@
 package hooks;
 
-import com.trio.qa.config.ConfigReader;
-import com.trio.qa.tests.core.DriverManager;
-import com.trio.qa.tests.runner.TestRunner;
+import com.browserstack.qa.task.config.ConfigReader;
+import com.browserstack.qa.task.core.DriverManager;
+import com.browserstack.qa.task.reporting.AllureReportGenerator;
+import com.browserstack.qa.task.reporting.Log4jInitializer;
+import com.browserstack.qa.task.runner.TestRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.testng.annotations.AfterSuite;
+
+import java.io.IOException;
+
+import static com.browserstack.qa.task.reporting.Log4jInitializer.initialize;
 
 public class CucumberHooks {
 
     private static final Logger logger = LogManager.getLogger(CucumberHooks.class);
+    @BeforeAll
+    public static void setupLogging() {
+        // Initialize Log4j with dynamic system properties
+        initialize();
 
+        // Example log to verify setup
+        logger.info("Logging initialized for the test suite.");
+    }
     @Before
     public void setUp(Scenario scenario) {
         try {
@@ -50,6 +65,15 @@ public class CucumberHooks {
         } finally {
             DriverManager.quitDriver();
             logger.info("Closed WebDriver for scenario: {}", scenario.getName());
+        }
+    }
+
+    @AfterSuite
+    public void generateAllureReport() {
+        try {
+            AllureReportGenerator.generateReport();
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
