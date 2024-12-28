@@ -1,6 +1,7 @@
 package com.browserstack.qa.task.runner;
 
 
+import com.browserstack.qa.task.reporting.LogSetup;
 import org.testng.annotations.BeforeClass;
 
 public class SingleBrowserRunner extends TestRunner {

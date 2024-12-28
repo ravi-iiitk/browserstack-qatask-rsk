@@ -1,6 +1,5 @@
-package com.browserstack.qa.task.utils.misc;
+package com.browserstack.qa.task.unittests;
 
-import com.browserstack.qa.task.utils.exception.ExceptionHandler;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

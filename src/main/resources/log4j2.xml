@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <!-- Define properties with fallbacks -->
+        <Property name="projectName">${sys:projectName:-BrowserstackQATask}</Property>
+        <Property name="applicationName">${sys:applicationName:-Elpais}</Property>
+        <Property name="buildName">${sys:buildName:-Production-28-Dec-24}</Property>
+        <Property name="timestamp">${date:yyyy-MM-dd_HH-mm-ss}</Property>
+    </Properties>
+
+    <Appenders>
+        <!-- Console Appender -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <!-- File Appender -->
+        <File name="File" fileName="logs/${projectName}_${applicationName}_${buildName}_${timestamp}.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <!-- Root Logger -->
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="File"/>
+        </Root>
+    </Loggers>
+</Configuration>

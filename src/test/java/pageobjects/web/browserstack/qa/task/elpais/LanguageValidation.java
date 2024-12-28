@@ -5,6 +5,7 @@ import com.browserstack.qa.task.utils.misc.TranslationUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
 import java.util.List;
+
+import static com.browserstack.qa.task.utils.selenium.ElementUtils.getText;
 
 public class LanguageValidation {
     private WebDriver driver;
@@ -35,27 +38,36 @@ public class LanguageValidation {
         logger.info("Starting traversal to collect up to 500 text elements...");
         while (!stack.isEmpty() && limitedText.size() < 100) {
             WebElement currentElement = stack.pop();
-            String text = currentElement.getText().trim();
+            try {
+                String text = currentElement.getText().trim();
 
-            if (!text.isEmpty()) {
-                limitedText.add(text); // Add text to the list
-                logger.info("Collected text: " + text); // Log collected text
-            }
+                if (!text.isEmpty()) {
+                    limitedText.add(text); // Add text to the list
+                    logger.info("Collected text: " + text); // Log collected text
+                }
 
-            // Add child elements to the stack
-            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
-            Long childCount = (Long) jsExecutor.executeScript("return arguments[0].children.length;", currentElement);
+                // Add child elements to the stack
+                JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+                Long childCount = (Long) jsExecutor.executeScript("return arguments[0].children.length;", currentElement);
 
-            for (int i = 0; i < childCount; i++) {
-                WebElement childElement = (WebElement) jsExecutor.executeScript(
-                        "return arguments[0].children[" + i + "];", currentElement);
-                stack.push(childElement);
+                for (int i = 0; i < childCount; i++) {
+                    try {
+                        WebElement childElement = (WebElement) jsExecutor.executeScript(
+                                "return arguments[0].children[" + i + "];", currentElement);
+                        stack.push(childElement);
+                    } catch (StaleElementReferenceException e) {
+                        logger.warn("Child element became stale while accessing: " + e.getMessage());
+                    }
+                }
+            } catch (StaleElementReferenceException e) {
+                logger.warn("Skipped stale element: " + e.getMessage());
             }
         }
 
         logger.info("Finished collecting text. Collected " + limitedText.size() + " elements.");
         return limitedText;
     }
+
 
     /**
      * Validates if at least 80% of the collected text is in Spanish.

@@ -9,11 +9,12 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-    private static final Logger logger = LogManager.getLogger(ConfigReader.class);
+
     private static final Properties globalProperties = new Properties();
     private static final Properties environmentProperties = new Properties();
     private static final Properties browserStackProperties = new Properties();
     private static String environment;
+    private static final Logger logger = LogManager.getLogger(ConfigReader.class);
 
     static {
         try {

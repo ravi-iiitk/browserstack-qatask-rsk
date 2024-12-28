@@ -4,12 +4,12 @@ Feature: Opinion & Transalation for Elpais.com
     Given I visit the website "https://elpais.com"
     Then I am on the "EL PAÍS: el periódico global" homepage
 
-
+  @smoke
   Scenario: Ensure the website's text is displayed in Spanish
     Given I am on the "EL PAÍS: el periódico global" homepage
     Then the website's text should be displayed in "Spanish"
 
-
+  @smoke
   Scenario: Scrape articles from the Opinion section
     Given I am on the "EL PAÍS: el periódico global" homepage
     When I navigate to the "Opinion" section of the website
@@ -17,7 +17,7 @@ Feature: Opinion & Transalation for Elpais.com
     Then I print the title and content of each article in "Spanish"
     And I download and save the cover image of each article, if available
 
-
+  @smoke
   Scenario: Translate the titles of articles from the Opinion section
     Given I navigate to the "opinion" section of the website
     When I fetch the first 5 articles titles

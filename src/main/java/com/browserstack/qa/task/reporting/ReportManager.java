@@ -3,7 +3,6 @@ package com.browserstack.qa.task.reporting;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.browserstack.qa.task.utils.misc.TranslationTest;
 import io.qameta.allure.Allure;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

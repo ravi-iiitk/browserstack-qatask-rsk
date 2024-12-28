@@ -4,6 +4,7 @@ import com.browserstack.qa.task.config.ConfigReader;
 import com.browserstack.qa.task.core.DriverManager;
 import com.browserstack.qa.task.reporting.AllureReportGenerator;
 import com.browserstack.qa.task.reporting.Log4jInitializer;
+import com.browserstack.qa.task.reporting.LogSetup;
 import com.browserstack.qa.task.runner.TestRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -21,15 +22,14 @@ import static com.browserstack.qa.task.reporting.Log4jInitializer.initialize;
 
 public class CucumberHooks {
 
-    private static final Logger logger = LogManager.getLogger(CucumberHooks.class);
     @BeforeAll
-    public static void setupLogging() {
-        // Initialize Log4j with dynamic system properties
-        initialize();
-
-        // Example log to verify setup
-        logger.info("Logging initialized for the test suite.");
+    public static void beforeAll()
+    {
+        LogSetup.setupLoggingProperties();
     }
+    private static final Logger logger = LogManager.getLogger(CucumberHooks.class);
+
+
     @Before
     public void setUp(Scenario scenario) {
         try {

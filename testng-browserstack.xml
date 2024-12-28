@@ -8,7 +8,7 @@
         <parameter name="osVersion" value="11"/>
         <parameter name="browserVersion" value="latest"/>
         <classes>
-            <class name="BrowserStackRunner"/>
+            <class name= "com.browserstack.qa.task.runner.BrowserStackRunner"/>
         </classes>
     </test>
 
@@ -18,7 +18,7 @@
         <parameter name="osVersion" value="11"/>
         <parameter name="browserVersion" value="latest"/>
         <classes>
-            <class name="BrowserStackRunner"/>
+            <class name="com.browserstack.qa.task.runner.BrowserStackRunner"/>
         </classes>
     </test>
 
@@ -28,7 +28,7 @@
         <parameter name="osVersion" value="11"/>
         <parameter name="browserVersion" value="latest"/>
         <classes>
-            <class name="BrowserStackRunner"/>
+            <class name="com.browserstack.qa.task.runner.BrowserStackRunner"/>
         </classes>
     </test>
 
@@ -38,7 +38,7 @@
         <parameter name="deviceName" value="Samsung Galaxy S23"/>
         <parameter name="osVersion" value="13.0"/>
         <classes>
-            <class name="BrowserStackRunner"/>
+            <class name="com.browserstack.qa.task.runner.BrowserStackRunner"/>
         </classes>
     </test>
 
@@ -47,7 +47,7 @@
         <parameter name="deviceName" value="Samsung Galaxy S23"/>
         <parameter name="osVersion" value="13.0"/>
         <classes>
-            <class name="BrowserStackRunner"/>
+            <class name="com.browserstack.qa.task.runner.BrowserStackRunner"/>
         </classes>
     </test>
 

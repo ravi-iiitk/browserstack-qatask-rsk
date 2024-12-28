@@ -1,7 +1,6 @@
 package com.browserstack.qa.task.reporting;
 
 import com.browserstack.qa.task.config.ConfigReader;
-import com.browserstack.qa.task.utils.misc.TranslationTest;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -1,6 +1,5 @@
 package com.browserstack.qa.task.utils.selenium;
 
-import com.browserstack.qa.task.utils.misc.TranslationTest;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

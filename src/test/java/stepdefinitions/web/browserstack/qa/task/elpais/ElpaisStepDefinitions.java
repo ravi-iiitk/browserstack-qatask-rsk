@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static com.browserstack.qa.task.utils.selenium.BrowserUtils.scrollDownTwice;
+import static com.browserstack.qa.task.utils.selenium.BrowserUtils.waitForPageToLoad;
 import static org.testng.AssertJUnit.assertTrue;
 
 public class ElpaisStepDefinitions {
@@ -35,12 +37,12 @@ public class ElpaisStepDefinitions {
             driver = DriverManager.getDriver(); // Get the WebDriver instance from DriverManager
             logger.info("Navigating to URL: {}", url);
             driver.get(url);
-
             // Initialize the HomePage object
             homePage = new HomePage(driver);
             homePage.maximizePage();
-            homePage.acceptThePopUp(); // Handle any pop-ups
-
+            homePage.acceptThePopUp();
+            waitForPageToLoad(driver,10);
+         // Handle any pop-ups
             logger.info("Successfully navigated to URL: {}", url);
         } catch (Exception e) {
             logger.error("Failed to navigate to URL: {}. Error: {}", url, e.getMessage());
@@ -58,6 +60,7 @@ public class ElpaisStepDefinitions {
     @Then("the website's text should be displayed in {string}")
     public void theWebsiteSTextShouldBeDisplayedIn(String language) {
         languageValidation = new LanguageValidation(driver);
+
         assertTrue("Website text is not in " + language, languageValidation.validatePageTextIsInSpanish());
         logger.info("Verified the website's text is displayed in {}", language);
     }
@@ -65,6 +68,7 @@ public class ElpaisStepDefinitions {
     @Given("I navigate to the {string} section of the website")
     public void iNavigateToTheSectionOfTheWebsite(String section) {
         homePage.navigateToOpinionSection();
+        waitForPageToLoad(driver,10);
         opinionPage = new OpinionPage(driver);
         logger.info("Navigated to the {} section of the website", section);
         try {

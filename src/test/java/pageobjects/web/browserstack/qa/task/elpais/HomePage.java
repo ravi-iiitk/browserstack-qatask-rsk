@@ -54,7 +54,8 @@ public class HomePage {
      */
     public void navigateToOpinionSection() {
         logger.info("Navigating to the Opinion section.");
-        clickElement(opinionSectionLink, driver);
+        driver.navigate().to("https://elpais.com/opinion/");
+       // clickElement(opinionSectionLink, driver);
         logger.info("Successfully navigated to the Opinion section.");
     }
 

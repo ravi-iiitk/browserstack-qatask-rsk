@@ -1,5 +1,6 @@
 package com.browserstack.qa.task.runner;
 
+import com.browserstack.qa.task.reporting.LogSetup;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 import org.testng.TestNG;
@@ -23,6 +24,7 @@ import org.testng.annotations.Parameters;
 public class TestRunner extends AbstractTestNGCucumberTests {
 
     private static final ThreadLocal<String> threadLocalBrowser = new ThreadLocal<>();
+
 
     @Parameters("browser")
     @BeforeClass(alwaysRun = true)
