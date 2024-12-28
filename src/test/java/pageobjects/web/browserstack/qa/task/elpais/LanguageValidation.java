@@ -1,6 +1,9 @@
 package pageobjects.web.browserstack.qa.task.elpais;
 
+import com.browserstack.qa.task.runner.BrowserStackRunner;
 import com.browserstack.qa.task.utils.misc.TranslationUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,19 +26,20 @@ public class LanguageValidation {
      * @param rootElement The root element to start traversal.
      * @return A list of up to 500 extracted visible text from the webpage.
      */
+    private static final Logger logger = LogManager.getLogger(LanguageValidation.class);
     private List<String> collectLimitedText(WebElement rootElement) {
         Deque<WebElement> stack = new LinkedList<>(); // Stack for iterative traversal
         List<String> limitedText = new ArrayList<>(); // List to store up to 500 pieces of text
         stack.push(rootElement);
 
-        System.out.println("Starting traversal to collect up to 500 text elements...");
+        logger.info("Starting traversal to collect up to 500 text elements...");
         while (!stack.isEmpty() && limitedText.size() < 100) {
             WebElement currentElement = stack.pop();
             String text = currentElement.getText().trim();
 
             if (!text.isEmpty()) {
                 limitedText.add(text); // Add text to the list
-                System.out.println("Collected text: " + text); // Log collected text
+                logger.info("Collected text: " + text); // Log collected text
             }
 
             // Add child elements to the stack
@@ -49,7 +53,7 @@ public class LanguageValidation {
             }
         }
 
-        System.out.println("Finished collecting text. Collected " + limitedText.size() + " elements.");
+        logger.info("Finished collecting text. Collected " + limitedText.size() + " elements.");
         return limitedText;
     }
 
@@ -67,12 +71,12 @@ public class LanguageValidation {
             if (TranslationUtils.isSpanishText(text)) {
                 spanishTextCount++;
             } else {
-                System.out.println("Non-Spanish text detected: " + text); // Log non-Spanish text
+                logger.warn("Non-Spanish text detected: " + text); // Log non-Spanish text
             }
         }
 
         double spanishPercentage = ((double) spanishTextCount / totalTextCount) * 100;
-        System.out.println("Total Text: " + totalTextCount + " | Spanish Text: " + spanishTextCount + " (" + spanishPercentage + "%)");
+        logger.info("Total Text: " + totalTextCount + " | Spanish Text: " + spanishTextCount + " (" + spanishPercentage + "%)");
 
         return spanishPercentage >= 80.0; // Check if 80% or more text is in Spanish
     }
@@ -94,6 +98,7 @@ public class LanguageValidation {
             return is80PercentSpanish(collectedText);
         } catch (Exception e) {
             System.err.println("Error during DOM traversal or validation: " + e.getMessage());
+            logger.error(e.getMessage());
             return false;
         }
     }

@@ -3,7 +3,10 @@ package com.browserstack.qa.task.reporting;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.browserstack.qa.task.utils.misc.TranslationTest;
 import io.qameta.allure.Allure;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,7 +14,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class ReportManager {
-
+    private static final Logger logger = LogManager.getLogger(ReportManager.class);
     private static ExtentReports extent;
     private static ExtentTest test;
     private static String reportType;
@@ -96,7 +99,7 @@ public class ReportManager {
         } else if (reportType.equals("allure")) {
             Allure.step(message);
         } else {
-            System.out.println("[" + status.toUpperCase() + "] " + message);
+            logger.info("[" + status.toUpperCase() + "] " + message);
         }
     }
 

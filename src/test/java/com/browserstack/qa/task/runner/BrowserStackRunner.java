@@ -1,7 +1,10 @@
 package com.browserstack.qa.task.runner;
 
+import com.browserstack.qa.task.utils.testdata.TestDataLoader;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.TestNG;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Optional;
@@ -23,7 +26,7 @@ import java.util.List;
         monochrome = true // Better console output
 )
 public class BrowserStackRunner extends AbstractTestNGCucumberTests {
-
+    private static final Logger logger = LogManager.getLogger(BrowserStackRunner.class);
     private static final ThreadLocal<String> threadLocalBrowser = new ThreadLocal<>();
     private static final ThreadLocal<String> threadLocalOS = new ThreadLocal<>();
     private static final ThreadLocal<String> threadLocalOSVersion = new ThreadLocal<>();
@@ -42,11 +45,11 @@ public class BrowserStackRunner extends AbstractTestNGCucumberTests {
         threadLocalOSVersion.set(osVersion);
         threadLocalBrowserVersion.set(browserVersion);
         threadLocalDeviceName.set(deviceName);
-        System.out.println("Browser: " + browser);
-        System.out.println("OS: " + os);
-        System.out.println("OS Version: " + osVersion);
-        System.out.println("Browser Version: " + browserVersion);
-        System.out.println("Device Name: " + deviceName);
+        logger.info("Browser in this thread: " + browser);
+        logger.info("OS selected in this thread: " + os);
+        logger.info("OS Version  in this thread: " + osVersion);
+        logger.info("Browser Version selected in this thread: " + browserVersion);
+        logger.info("Device Name selected in this thread: " + deviceName);
     }
 
     public static String getBrowser() {

@@ -1,8 +1,11 @@
 package com.browserstack.qa.task.utils.testdata;
 
 import com.browserstack.qa.task.config.ConfigReader;
+import com.browserstack.qa.task.reporting.AllureReportGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +17,7 @@ public class TestDataLoader {
     private static final String BASE_PATH = "src/test/resources/test-data/";
     private static final String PLATFORM = ConfigReader.get("platform"); // Example: web
     private static final String APPLICATION = ConfigReader.get("application.name"); // Example: facebook
-
+    private static final Logger logger = LogManager.getLogger(TestDataLoader.class);
     /**
      * Dynamically constructs the folder path for test data.
      *
@@ -39,7 +42,7 @@ public class TestDataLoader {
         ObjectMapper mapper = new ObjectMapper();
 
         // Debug log to verify the constructed file path
-        System.out.println("Loading test data from: " + filePath);
+        logger.info("Loading test data from: " + filePath);
 
         try {
             return mapper.readValue(new File(filePath), new TypeReference<>() {});

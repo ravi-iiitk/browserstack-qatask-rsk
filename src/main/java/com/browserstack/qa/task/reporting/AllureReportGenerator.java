@@ -1,13 +1,16 @@
 package com.browserstack.qa.task.reporting;
 
 import com.browserstack.qa.task.config.ConfigReader;
+import com.browserstack.qa.task.utils.misc.TranslationTest;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class AllureReportGenerator {
-
+    private static final Logger logger = LogManager.getLogger(AllureReportGenerator.class);
     public static void generateReport() throws IOException, InterruptedException {
         String projectName = ConfigReader.getGlobal("project.name");
         String applicationName = ConfigReader.getGlobal("application.name");
@@ -28,6 +31,6 @@ public class AllureReportGenerator {
         Process process = processBuilder.start();
         process.waitFor();
 
-        System.out.println("Allure report generated at: " + reportDir);
+        logger.info("Allure report generated at: " + reportDir);
     }
 }

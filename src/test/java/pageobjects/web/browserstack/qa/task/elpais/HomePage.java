@@ -103,7 +103,7 @@ public class HomePage {
             // Maximize the window only if it's not a mobile device
             driver.manage().window().maximize();
         } else {
-            System.out.println("Skipping window maximize for mobile driver.");
+           logger.info("Skipping window maximize for mobile driver.");
         }
     }
 
