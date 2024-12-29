@@ -94,14 +94,17 @@ public class DriverManager {
     private static WebDriver initializeLocalDriverManager(String browser) {
         switch (browser.toLowerCase()) {
             case "chrome":
+                WebDriverManager.chromedriver().config().setClearDriverCache(true);
                 WebDriverManager.chromedriver().setup();
                 logger.info("Initializing Chrome browser using WebDriverManager.");
                 return new ChromeDriver();
             case "firefox":
+                WebDriverManager.firefoxdriver().config().setClearDriverCache(true);
                 WebDriverManager.firefoxdriver().setup();
                 logger.info("Initializing Firefox browser using WebDriverManager.");
                 return new FirefoxDriver();
             case "edge":
+                WebDriverManager.edgedriver().config().setClearDriverCache(true);
                 WebDriverManager.edgedriver().setup();
                 logger.info("Initializing Edge browser using WebDriverManager.");
                 return new EdgeDriver();
@@ -128,17 +131,19 @@ public class DriverManager {
         switch (browser.toLowerCase()) {
             case "chrome":
                 ChromeOptions chromeOptions = new ChromeOptions();
+                chromeOptions.addArguments("--headless", "--disable-gpu");
                 chromeOptions.setCapability("browserName", "chrome");
                 capabilities.merge(chromeOptions);
                 break;
             case "firefox":
                 FirefoxOptions firefoxOptions = new FirefoxOptions();
                 firefoxOptions.setCapability("browserName", "firefox");
+                firefoxOptions.addArguments("--headless", "--disable-gpu");
                 capabilities.merge(firefoxOptions);
                 break;
             case "edge":
                 EdgeOptions edgeOptions = new EdgeOptions();
-                edgeOptions.setCapability("browserName", "edge");
+                edgeOptions.addArguments("--headless", "--disable-gpu", "--no-sandbox");
                 capabilities.merge(edgeOptions);
                 break;
             default:

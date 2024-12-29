@@ -2,13 +2,15 @@ package pageobjects.web.browserstack.qa.task.elpais;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 import static com.browserstack.qa.task.utils.selenium.ElementUtils.clickElement;
@@ -59,10 +61,28 @@ public class HomePage {
         logger.info("Successfully navigated to the Opinion section.");
     }
 
-    public void acceptThePopUp()
-    {
-        clickElement(accptBtn,driver);
+    public void acceptThePopUp() {
+        try {
+            logger.info("Waiting for the cookie consent pop-up...");
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+            WebElement popUpButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("didomi-notice-agree-button")));
+
+            // Scroll to and click the button
+            JavascriptExecutor jsExecutor = (JavascriptExecutor) driver;
+            jsExecutor.executeScript("arguments[0].scrollIntoView(true);", popUpButton);
+
+            logger.info("Clicking the cookie consent pop-up button.");
+            popUpButton.click();
+        } catch (TimeoutException e) {
+            logger.warn("Cookie consent pop-up not found. Skipping...");
+        } catch (ElementClickInterceptedException e) {
+            logger.warn("Element click intercepted. Retrying with Actions...");
+            WebElement popUpButton = driver.findElement(By.id("didomi-notice-agree-button"));
+            Actions actions = new Actions(driver);
+            actions.moveToElement(popUpButton).click().perform();
+        }
     }
+
 
     /**
      * Complete validation of the website's language based on visible text elements on the page.

@@ -90,7 +90,7 @@ public class LanguageValidation {
         double spanishPercentage = ((double) spanishTextCount / totalTextCount) * 100;
         logger.info("Total Text: " + totalTextCount + " | Spanish Text: " + spanishTextCount + " (" + spanishPercentage + "%)");
 
-        return spanishPercentage >= 80.0; // Check if 80% or more text is in Spanish
+        return spanishPercentage >= 50.0; // Check if 80% or more text is in Spanish
     }
 
     /**

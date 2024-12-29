@@ -1,7 +1,7 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="Cross-Browser Parallel Execution" parallel="tests" thread-count="1">
-    <test name="Chrome Test">
-        <parameter name="browser" value="chrome"/>
+    <test name="Single Browser Test">
+        <parameter name="browser" value="edge"/>
         <classes>
             <class name="com.browserstack.qa.task.runner.SingleBrowserRunner"/>
         </classes>

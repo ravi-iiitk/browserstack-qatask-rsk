@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  edge:
+    image: selenium/node-edge:latest
+    container_name: selenium-node-edge
+    environment:
+      - SE_EVENT_BUS_HOST=selenium-hub
+      - SE_EVENT_BUS_PUBLISH_PORT=4442
+      - SE_EVENT_BUS_SUBSCRIBE_PORT=4443
+    shm_size: 2gb
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+          cpus: "2.0" # Allocate 2 CPUs
+    networks:
+      - selenium-grid
+
+networks:
+  selenium-grid:
+    external: true

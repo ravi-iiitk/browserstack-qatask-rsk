@@ -32,9 +32,13 @@ public class ConfigReader {
             logger.info("Loaded {} environment configuration.", environment);
 
             // Load BrowserStack-specific configuration (if present)
-            FileInputStream bsConfig = new FileInputStream("src/main/resources/config/config-browserstack.properties");
-            browserStackProperties.load(bsConfig);
-            logger.info("Loaded BrowserStack-specific configuration from config-browserstack.properties.");
+            if(ConfigReader.getGlobal("execution-platform").equalsIgnoreCase("cloud") && ConfigReader.getGlobal("cloud-provider").equalsIgnoreCase("browserstack"))
+            {
+                FileInputStream bsConfig = new FileInputStream("src/main/resources/config/config-browserstack.properties");
+                browserStackProperties.load(bsConfig);
+                logger.info("Loaded BrowserStack-specific configuration from config-browserstack.properties.");
+            }
+
 
         } catch (IOException e) {
             logger.error("Failed to load configuration files.", e);
@@ -109,7 +113,7 @@ public class ConfigReader {
         if (browser == null || browser.isEmpty()) {
             browser = "chrome"; // Default browser
         }
-        logger.info("Using browser: {}", browser);
+        logger.info("Browser Provided in Configuration: {}", browser);
         return browser;
     }
 

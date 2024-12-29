@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="Cucumber" time="676.83" tests="4" skipped="0" failures="0" errors="0">
-<testcase classname="Opinion &amp; Transalation for Elpais.com" name="Ensure the website's text is displayed in Spanish" time="519.429">
+<testsuite name="Cucumber" time="174.355" tests="1" skipped="0" failures="0" errors="0">
+<testcase classname="Opinion &amp; Translation for Elpais.com" name="Ensure the website's text is displayed in Spanish" time="174.093">
 <system-out><![CDATA[
 Given I visit the website "https://elpais.com"..............................passed
 Then I am on the "EL PAÍS: el periódico global" homepage....................passed
@@ -8,38 +8,4 @@ Given I am on the "EL PAÍS: el periódico global" homepage...................pa
 Then the website's text should be displayed in "Spanish"....................passed
 ]]></system-out>
 </testcase>
-<testcase classname="Opinion &amp; Transalation for Elpais.com" name="Scrape articles from the Opinion section" time="53.204">
-<system-out><![CDATA[
-Given I visit the website "https://elpais.com"..............................passed
-Then I am on the "EL PAÍS: el periódico global" homepage....................passed
-Given I am on the "EL PAÍS: el periódico global" homepage...................passed
-When I navigate to the "Opinion" section of the website.....................passed
-And I fetch the first 5 articles............................................passed
-Then I print the title and content of each article in "Spanish".............passed
-And I download and save the cover image of each article, if available.......passed
-]]></system-out>
-</testcase>
-<testcase classname="Opinion &amp; Transalation for Elpais.com" name="Translate the titles of articles from the Opinion section" time="56.965">
-<system-out><![CDATA[
-Given I visit the website "https://elpais.com"..............................passed
-Then I am on the "EL PAÍS: el periódico global" homepage....................passed
-Given I navigate to the "opinion" section of the website....................passed
-When I fetch the first 5 articles titles....................................passed
-Then I translate the article titles to "English"............................passed
-And I print the translated titles...........................................passed
-]]></system-out>
-</testcase>
-<testcase classname="Opinion &amp; Transalation for Elpais.com" name="Identify repeated words from translated titles" time="46.825">
-<system-out><![CDATA[
-Given I visit the website "https://elpais.com"..............................passed
-Then I am on the "EL PAÍS: el periódico global" homepage....................passed
-Given I navigate to the "opinion" section of the website....................passed
-When I fetch the first 5 articles titles....................................passed
-Then I translate the article titles to "English"............................passed
-And I have the translated headers...........................................passed
-When I identify words repeated more than 2 times across all headers.........passed
-Then I print each repeated word with its count of occurrences...............passed
-]]></system-out>
-</testcase>
 </testsuite>
-
